@@ -1,0 +1,37 @@
+{
+  "name": "daakghar",
+  "version": "1.0.0",
+  "description": "The one-stop-shop for sending communications from Coding Blocks",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "tsc",
+    "prestart": "npm run build",
+    "start": "node dist/run.js",
+    "start:prod": "cross-env NODE_ENV=production node dist/run.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/coding-blocks/daakghar.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/coding-blocks/daakghar/issues"
+  },
+  "homepage": "https://github.com/coding-blocks/daakghar#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.6",
+    "@types/handlebars": "^4.1.0",
+    "typescript": "^3.9.5"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.2",
+    "express": "^4.17.1",
+    "handlebars": "^4.7.6",
+    "pg": "^8.2.1",
+    "pg-hstore": "^2.3.3",
+    "rimraf": "^3.0.2",
+    "typeorm": "^0.2.25"
+  }
+}
