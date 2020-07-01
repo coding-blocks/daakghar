@@ -21,12 +21,14 @@
   },
   "homepage": "https://github.com/coding-blocks/daakghar#readme",
   "devDependencies": {
+    "@types/debug": "^4.1.5",
     "@types/express": "^4.17.6",
     "@types/handlebars": "^4.1.0",
     "typescript": "^3.9.5"
   },
   "dependencies": {
     "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
     "express": "^4.17.1",
     "handlebars": "^4.7.6",
     "pg": "^8.2.1",

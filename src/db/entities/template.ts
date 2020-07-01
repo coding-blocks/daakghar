@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { Medium } from "./medium";
+import { MediumType } from "../../domain/mediums/Medium";
 
 @Entity()
 export class Template {
@@ -21,10 +21,7 @@ export class Template {
     @Column('text', { array: true })
     placeholders: Array<string>
 
-    /**
-     * The kind of medium this template is for
-     */
-    @ManyToOne(type => Medium)
-    medium: Medium
+    @Column('simple-enum', { enum: ['sms', 'email', 'push'] })
+    mediumType: MediumType
 
 }

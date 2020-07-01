@@ -1,7 +1,6 @@
 import { app } from "./server"
 import config from "./config"
 import { createConnection } from "typeorm"
-import { Medium } from "./db/entities/medium"
 import { Template } from "./db/entities/template"
 
 async function startServer() {
@@ -11,7 +10,7 @@ async function startServer() {
         username: config.DB_USER,
         database: config.DB_NAME,
         password: config.DB_PASS,
-        entities: [Medium, Template],
+        entities: [Template],
         synchronize: true,
         logger: config.TYPEORM_LOGGER,
         logging: config.TYPEORM_LOGGGING

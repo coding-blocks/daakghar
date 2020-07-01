@@ -1,18 +1,20 @@
 import { Router } from "express";
-import { getTemplateRepository, getMediumRepository } from "../../db/repositories";
+import { getTemplateRepository } from "../../db/repositories";
 import { ensureApiKey } from "../../middlewares/auth";
 import { Template } from "../../db/entities/template";
 import hbs from 'handlebars'
+import { mediums } from "../../domain/mediums";
+import { MediumType } from "../../domain/mediums/Medium";
 
 const route = Router()
 
 interface CreateTemplateParams {
     data: string
-    medium: string
+    medium: MediumType
 }
 
 route.get('/', async (req, res) => {
-    const templates = await getTemplateRepository().find({ relations: ['medium'] })
+    const templates = await getTemplateRepository().find()
 
     res.status(200).json(templates)
 })
@@ -20,17 +22,17 @@ route.get('/', async (req, res) => {
 route.post('/', ensureApiKey, async (req, res) => {
     const templateParams: CreateTemplateParams = req.body
 
-    const medium = await getMediumRepository().findOne(templateParams.medium)
-    if (!medium) {
+    if (!mediums[templateParams.medium]) {
         return res.status(404).send({
             error: 'No such medium found'
         })
     }
 
+
     const placeholders = Array.from(templateParams.data.matchAll(/{{[{]?(.*?)[}]?}}/g)).map(it => it[1])
     const newTemplate = new Template()
     newTemplate.data = templateParams.data
-    newTemplate.medium = medium
+    newTemplate.mediumType = templateParams.medium
     newTemplate.placeholders = placeholders
 
     const template = await getTemplateRepository().save(newTemplate)
@@ -40,9 +42,9 @@ route.post('/', ensureApiKey, async (req, res) => {
 })
 
 route.get('/:id', async (req, res) => {
-    const template  = await getTemplateRepository().findOne(req.params.id, {relations: ['medium']})
+    const template = await getTemplateRepository().findOne(req.params.id)
     if (!template) {
-        res.status(404).send({error: 'No such template found'})
+        res.status(404).send({ error: 'No such template found' })
     }
 
     res.status(200).json(template)
