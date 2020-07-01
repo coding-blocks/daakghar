@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
-import { MediumType } from "../../domain/mediums/Medium";
+import { MediumType, MEDIUMS_LIST } from "../../domain/mediums/Medium";
 
 @Entity()
 export class Template {
@@ -11,7 +11,7 @@ export class Template {
      * This is the template data, should be a handlebars string
      * eg: `Hello {{user}} how are you ?`
      */
-    @Column('text')
+    @Column('text', { nullable: false })
     data: string
 
     /**
@@ -21,7 +21,7 @@ export class Template {
     @Column('text', { array: true })
     placeholders: Array<string>
 
-    @Column('simple-enum', { enum: ['sms', 'email', 'push'] })
+    @Column('simple-enum', { enum: MEDIUMS_LIST })
     mediumType: MediumType
 
 }

@@ -1,5 +1,6 @@
 
-export type MediumType = 'sms' | 'email' | 'push'
+export const MEDIUMS_LIST = <const> ['sms' , 'email' , 'push']
+export type MediumType = typeof MEDIUMS_LIST[number]
 export interface Medium {
     /**
      * type of medium, like: 'sms', 'email', 'push'
