@@ -8,8 +8,13 @@ export class MockEmailTransport implements Transport {
     readonly mediumType = 'email'
     readonly vendor: string = MockEmailTransport.VENDOR
     
-    async send(template: string, data: any, recipient: string) {
-        log(`Sending template ${template} to ${recipient} with data ${data}`)
+    async send(messageBody: string, recipient: string) {
+        log(`Sending message 
+        ---------------
+        ${messageBody}
+        ---------------
+        to ${recipient}
+        `)
     }
     
 }

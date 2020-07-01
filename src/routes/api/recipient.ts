@@ -13,10 +13,10 @@ route.get('/', async (req, res) => {
 })
 
 
-interface AddRecipientParamsOneauth {
+interface AddRecipientBodyOneauth {
     oneauthId: string
 }
-interface AddRecipientParamsNew {
+interface AddRecipientBodyNew {
     email?: string
     phno?: string
 }
@@ -24,8 +24,8 @@ interface AddRecipientParamsNew {
  * Add a recipient
  */
 route.post('/', async (req, res) => {
-    if (!(req.body as AddRecipientParamsOneauth).oneauthId) {
-        const params = (req.body as AddRecipientParamsNew)
+    if (!(req.body as AddRecipientBodyOneauth).oneauthId) {
+        const params = (req.body as AddRecipientBodyNew)
         const repo = getRecipientRepository()
 
         const recipient = await repo.insert(params)

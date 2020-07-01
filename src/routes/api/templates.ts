@@ -1,14 +1,13 @@
 import { Router } from "express";
 import { getTemplateRepository } from "../../db/repositories";
 import { ensureApiKey } from "../../middlewares/auth";
-import { Template } from "../../db/entities/template";
-import hbs from 'handlebars'
+import { Template, MissingPlaceholderException } from "../../db/entities/template";
 import { mediums } from "../../domain/mediums";
 import { MediumType } from "../../domain/mediums/Medium";
 
 const route = Router()
 
-interface CreateTemplateParams {
+interface CreateTemplateBody {
     data: string
     medium: MediumType
 }
@@ -20,7 +19,7 @@ route.get('/', async (req, res) => {
 })
 
 route.post('/', ensureApiKey, async (req, res) => {
-    const templateParams: CreateTemplateParams = req.body
+    const templateParams: CreateTemplateBody = req.body
 
     if (!mediums[templateParams.medium]) {
         return res.status(404).send({
@@ -50,34 +49,31 @@ route.get('/:id', async (req, res) => {
     res.status(200).json(template)
 })
 
-interface TemplateRenderParams {
+interface TemplateRenderBody {
     data: { [x: string]: string }
 }
 
 route.post('/:id/render', async (req, res) => {
-    const renderParams: TemplateRenderParams = req.body
+    const renderParams: TemplateRenderBody = req.body
 
     const template = await getTemplateRepository().findOne(req.params.id)
     if (!template) {
         return res.status(404).send({ error: 'No such template found' })
     }
 
-    for (let placeholder of template.placeholders) {
-        if (!renderParams.data[placeholder]) {
-            return res.status(400).send({ error: `No data sent for placeholder = ${placeholder}` })
-        }
-    }
-
     try {
-        const cookedString = hbs.compile(template.data)(renderParams.data)
-        return res.status(200).json({
+        const cookedString = template.render(renderParams.data)
+        return res.status(200).send({
             template,
             rendered: cookedString
         })
     } catch (err) {
-        return res.status(500).json({ error: err })
+        if (err instanceof MissingPlaceholderException) {
+            return res.status(400).json({ error: err.message })
+        } else {
+            return res.status(500).json({ error: err.message })
+        }
     }
-
 
 
 })

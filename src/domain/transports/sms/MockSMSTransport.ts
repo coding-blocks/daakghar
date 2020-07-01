@@ -8,8 +8,13 @@ export class MockSMSTransport implements Transport {
     readonly mediumType = 'sms'
     readonly vendor: string = MockSMSTransport.VENDOR
     
-    async send(template: string, data: any, recipient: string) {
-        log(`Sending template ${template} to ${recipient} with data ${data}`)
+    async send(messageBody: string, recipient: string) {
+        log(`Sending message 
+        ---------------
+        ${messageBody}
+        ---------------
+        to ${recipient}
+        `)
     }
     
 }

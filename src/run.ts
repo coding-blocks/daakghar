@@ -3,6 +3,7 @@ import config from "./config"
 import { createConnection } from "typeorm"
 import { Template } from "./db/entities/template"
 import { Recipient } from "./db/entities/recipient"
+import { Message } from "./db/entities/message"
 
 async function startServer() {
 
@@ -11,7 +12,7 @@ async function startServer() {
         username: config.DB_USER,
         database: config.DB_NAME,
         password: config.DB_PASS,
-        entities: [Template, Recipient],
+        entities: [Template, Recipient, Message],
         synchronize: true,
         // dropSchema: true, // FIXME: not for prod
         logger: config.TYPEORM_LOGGER,
