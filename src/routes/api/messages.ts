@@ -15,6 +15,7 @@ interface SendMessageBody {
     templateParams: {[x: string]: string}
     transport: string 
     medium: MediumType
+    // TODO: optional sendAt param (which will be a timestamp string)
 }
 /**
  * Send a new message
@@ -46,6 +47,10 @@ route.post('/', async (req, res) => {
             template: () => body.templateId.toString(),
             templateData: body.templateParams
         })
+
+        // if sendAt is more than 1hr in past, show error 
+        // if sendAt is <= now, send right now too, 
+        // if sendAt > now, only insert into db as scheduled, do not send
 
         transport.send(messageBody, body.recipientId)
         return res.status(201).send({

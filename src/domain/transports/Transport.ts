@@ -17,5 +17,6 @@ export interface Transport {
      * The function that sends a template (rendered with the data) to the recipient
      */
     send(messageBody: string, recipient: any): Promise<any>
+    // TODO: in send function, take a Message type object
 
 }

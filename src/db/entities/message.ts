@@ -21,4 +21,10 @@ export class Message {
 
     @Column('json')
     templateData: { [x: string]: string }
+
+    // TODO: add sendAt date time type column, default to now when inserting
+
+    // TODO: add status - scheduled | pending | sent | failed
+
+    // TODO: save the messageBody as text inside this. (FUTURE: save on S3 buckets instead)
 }
