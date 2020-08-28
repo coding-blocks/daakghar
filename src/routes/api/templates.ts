@@ -4,8 +4,15 @@ import { ensureApiKey } from "../../middlewares/auth";
 import { Template, MissingPlaceholderException } from "../../db/entities/template";
 import { mediums } from "../../domain/mediums";
 import { MediumType } from "../../domain/mediums/Medium";
+// import { setCorsHeaders } from "../../util/util.js";
+// import U = require("../../util/util")
+// import * as U from module("./../util/util");
 
 const route = Router()
+// route.get ('*', U.setCorsHeaders)
+// route.post ('*', U.setCorsHeaders)
+// route.patch ('*', U.setCorsHeaders)
+// route.options ('*', U.setCorsHeaders)
 
 interface CreateTemplateBody {
     data: string
@@ -19,6 +26,7 @@ route.get('/', async (req, res) => {
 })
 
 route.post('/', ensureApiKey, async (req, res) => {
+    console.log("posting ddataaaaaaaaaa")
     const templateParams: CreateTemplateBody = req.body
 
     if (!mediums[templateParams.medium]) {
