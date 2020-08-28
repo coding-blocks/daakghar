@@ -3,24 +3,22 @@
         <div class="container">
             <router-link to="/templates/add">+Add</router-link>
             {{ data }}
-            <div class="container" id="">
-                <div id="v-for-object">
-                    <table>
-                        <thead>
-                            <tr>
-                                <td>Sr No.</td>
-                                <td>Data</td>
-                                <td>Placeholder</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="template in templates" v-bind:key="template">
-                                <td>{{ template.data }}</td>
-                                <td>{{ template.placeholders }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="container" id="" v-show="1 === 2">
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Sr No.</td>
+                            <td>Data</td>
+                            <td>Placeholder</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="template in templates" v-bind:key="template">
+                            <td>{{ template.data }}</td>
+                            <td>{{ template.placeholders }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <router-view></router-view>
