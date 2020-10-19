@@ -3,6 +3,7 @@ const autoprefixer = require("autoprefixer");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CircularDependencyPlugin = require("circular-dependency-plugin");
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   entry: "./frontend/index.tsx",
@@ -21,6 +22,10 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.tsx?$/,
         loader: "ts-loader",
         exclude: /node_modules/,
@@ -36,9 +41,10 @@ module.exports = {
           {
             loader: "css-loader",
             options: {
-              modules: {
-                localIdentName: "[name]__[local]___[hash:base64:5]",
-              },
+              // modules: {
+                // localIdentName: "[name]__[local]___[hash:base64:5]",
+              // },
+              modules:true,
               sourceMap: true,
             },
           },
@@ -54,6 +60,10 @@ module.exports = {
     ],
   },
   plugins: [
+    new MonacoWebpackPlugin({
+      // available options are documented at https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+      languages: ['json']
+    }),
     new webpack.DefinePlugin({
       "process.env": Object.keys(process.env).reduce((acc, curr) => {
         acc[curr] = JSON.stringify(process.env[curr]);

@@ -1,12 +1,24 @@
 import React from "react";
 import Axios from "axios";
 import { useDispatch } from "react-redux";
-import { ControlledEditor } from "@monaco-editor/react";
+// import { ControlledEditor as MonacoEditor } from "@monaco-editor/react";
+import MonacoEditor from 'react-monaco-editor';
 import GenerateNowModal from "./GenerateNowModal";
-// import { updateLayout, createLayout } from "~/store/actions/layouts";
+import { updateLayout, createLayout } from "../store/actions/layouts";
 
+interface LayoutType {
+  name: string;
+  content: string;
+  height?: number;
+  params: [];
+  width?: number ;
+  _id: number;
+}
+
+//FIXME: any type of res
 interface Props {
-  layout: any; //FIXME: any datatype should be replaced with actual layout type
+  layout: LayoutType;
+  onAfterCreate?: (res: any) => any;
 }
 
 const TemplateLoader: React.FC<Props> = (props) => {
@@ -71,7 +83,7 @@ const TemplateLoader: React.FC<Props> = (props) => {
               type="number"
               value={editingLayout.width}
               onChange={(e) =>
-                setEditingLayout({ ...editingLayout, width: e.target.value })
+                setEditingLayout({ ...editingLayout, width: parseInt(e.target.value) })
               }
             />
             <label className="ml-2">Height:&nbsp;</label>
@@ -80,7 +92,7 @@ const TemplateLoader: React.FC<Props> = (props) => {
               type="number"
               value={editingLayout.height}
               onChange={(e) =>
-                setEditingLayout({ ...editingLayout, height: e.target.value })
+                setEditingLayout({ ...editingLayout, height: parseInt(e.target.value) })
               }
             />
           </div>
@@ -106,12 +118,14 @@ const TemplateLoader: React.FC<Props> = (props) => {
       </div>
       <div className="row no-gutters mt-4">
         <div className="col-6">
-          <ControlledEditor
+          {/* <ControlledEditor */}
+          <MonacoEditor
             height="75vh"
             language="handlebars"
             value={editingLayout.content}
-            onChange={(ev, value) =>
-              setEditingLayout({ ...editingLayout, content: value })
+            // FIXME: any types
+            onChange={(ev:any, value:any) =>
+              setEditingLayout({ ...editingLayout, content: value || "" })
             }
             theme="dark"
           />
